@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Student Registration</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header>
+    <h1>Online Course Registration System (UI Demo)</h1>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="course-search.html">Course Search</a>
+      <a href="student-registration.html">Student Registration</a>
+      <a href="instructor-schedule.html">Instructor Schedule</a>
+      <a href="session-enrollment.html">Session Enrollment</a>
+    </nav>
+  </header>
+
+  <main>
+    <div class="card">
+      <h2>Student Login (Demo)</h2>
+      <div class="row">
+        <div>
+          <label>Username</label>
+          <input placeholder="student1">
+        </div>
+        <div>
+          <label>Password</label>
+          <input type="password" placeholder="password">
+        </div>
+        <div style="display:flex; align-items:end;">
+          <button class="btn-secondary" type="button">Login</button>
+        </div>
+      </div>
+      <div id="messageBox" class="notice">Registering will validate: no duplicates + cannot register if full.</div>
+    </div>
+
+    <div class="card">
+      <h2>My Enrolled Sessions</h2>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Session ID</th>
+            <th>Course</th>
+            <th>Time</th>
+            <th>Modality</th>
+          </tr>
+        </thead>
+        <tbody id="enrolledBody"></tbody>
+      </table>
+    </div>
+
+    <div class="card">
+      <h2>Available Sessions</h2>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Session ID</th>
+            <th>Course</th>
+            <th>Time</th>
+            <th>Modality</th>
+            <th>Enrollment</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody id="availableBody"></tbody>
+      </table>
+      <p class="notice">
+        Buttons disable automatically if full or already enrolled.
+      </p>
+    </div>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>

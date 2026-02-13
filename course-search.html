@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Course Search</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header>
+    <h1>Online Course Registration System (UI Demo)</h1>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="course-search.html">Course Search</a>
+      <a href="student-registration.html">Student Registration</a>
+      <a href="instructor-schedule.html">Instructor Schedule</a>
+      <a href="session-enrollment.html">Session Enrollment</a>
+    </nav>
+  </header>
+
+  <main>
+    <div class="card">
+      <h2>Course Search</h2>
+
+      <div class="row">
+        <div>
+          <label>Department</label>
+          <select id="dept">
+            <option value="">Any</option>
+            <option value="CHEM">CHEM</option>
+            <option value="INFO">INFO</option>
+            <option value="MATH">MATH</option>
+          </select>
+        </div>
+
+        <div>
+          <label>Instructor</label>
+          <input id="instructor" placeholder="e.g., Smith">
+        </div>
+
+        <div>
+          <label>Course Number</label>
+          <input id="courseNumber" placeholder="e.g., 101">
+        </div>
+      </div>
+
+      <div style="margin-top: 10px;">
+        <button id="searchBtn">Search</button>
+      </div>
+
+      <table class="table" id="courseResults">
+        <thead>
+          <tr>
+            <th>Course</th>
+            <th>Credits</th>
+            <th>Prerequisites</th>
+            <th>Modality</th>
+            <th>Max Enrollment</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>CHEM 101 (CHEM)</td>
+            <td>3</td>
+            <td>None</td>
+            <td>In-person</td>
+            <td>30</td>
+          </tr>
+          <tr>
+            <td>INFO 465 (INFO)</td>
+            <td>3</td>
+            <td>INFO 300</td>
+            <td>Online</td>
+            <td>25</td>
+          </tr>
+          <tr>
+            <td>MATH 211 (MATH)</td>
+            <td>4</td>
+            <td>Pre-Calc</td>
+            <td>In-person</td>
+            <td>35</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p class="notice">Tip: Click Search to filter the table.</p>
+    </div>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
