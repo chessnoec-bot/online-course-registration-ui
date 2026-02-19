@@ -1,10 +1,10 @@
 README - Online Course Registration System UI Demo
 
 Team Member Contributions
-- Name 1: Built Home Screen (index.html) and helped with styles.css
-- Name 2: Built Course Search Screen (course-search.html)
-- Name 3: Built Student Registration Screen (student-registration.html) and app.js validation
-- Name 4: Built Instructor Schedule and Session Enrollment screens
+- Cait Chessnoe: Built Home Screen (index.html) and helped with styles.css
+- Simon Atsanyuk: Built Course Search Screen (course-search.html)
+- Saad Khan: Built Student Registration Screen (student-registration.html) and app.js validation
+- Muhammad Waleed: Built Instructor Schedule and Session Enrollment screens
 
 One-line Summary of Each Screen
 - Home: Provides navigation to all system features.
@@ -23,6 +23,7 @@ Design Decisions / Challenges
 - Kept functionality front-end only with sample data since this is a UI/UX draft.
 - Time constraints required focusing on core features first.
 - Prioritized simple, intuitive navigation to reduce user confusion and ensure the interface is easy to use without instructions.
+
 
 
 
