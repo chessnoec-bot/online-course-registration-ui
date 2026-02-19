@@ -21,4 +21,6 @@ HTML/CSS/JS Used
 Design Decisions / Challenges
 - Used one shared header/nav and one shared CSS file to ensure consistent look and feel.
 - Kept functionality front-end only with sample data since this is a UI/UX draft.
+- Time constraints required focusing on core features first.
+
 
