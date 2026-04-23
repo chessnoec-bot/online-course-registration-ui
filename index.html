@@ -1,40 +1,639 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Course Registration UI</title>
-  <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Course Registration System</title>
+
+  <style>
+    /* page colors */
+    :root {
+      --blue: #2563eb;
+      --darkBlue: #163b73;
+      --lightBlue: #eef4fb;
+      --white: #ffffff;
+      --border: #d9e3f0;
+      --green: #15803d;
+      --red: #b91c1c;
+      --gray: #64748b;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 16px;
+      font-family: Arial, sans-serif;
+      background: var(--lightBlue);
+    }
+
+    .app {
+      max-width: 1400px;
+      margin: auto;
+    }
+
+    /* top title box */
+    .hero {
+      background: linear-gradient(135deg, var(--darkBlue), var(--blue));
+      color: white;
+      padding: 18px 20px;
+      border-radius: 16px;
+      margin-bottom: 12px;
+    }
+
+    .hero h1 {
+      margin: 0;
+      font-size: 28px;
+    }
+
+    /* top summary boxes */
+    .summary {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .summary-box {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 14px;
+    }
+
+    .summary-box small {
+      display: block;
+      color: var(--gray);
+      margin-bottom: 5px;
+    }
+
+    .summary-box span {
+      font-size: 28px;
+      font-weight: bold;
+      color: var(--darkBlue);
+    }
+
+    /* main page layout */
+    .main {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 12px;
+    }
+
+    .panel {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      overflow: hidden;
+    }
+
+    .panel-header {
+      padding: 14px 16px;
+      border-bottom: 1px solid #edf2f7;
+    }
+
+    .panel-header h2,
+    .panel-header h3 {
+      margin: 0;
+      color: var(--darkBlue);
+    }
+
+    /* search bar area */
+    .toolbar {
+      padding: 12px 16px;
+      border-bottom: 1px solid #edf2f7;
+      display: grid;
+      grid-template-columns: 1.5fr 0.8fr 0.8fr;
+      gap: 10px;
+    }
+
+    .toolbar input,
+    .toolbar select {
+      padding: 10px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      font-size: 14px;
+    }
+
+    /* course cards */
+    .course-list {
+      max-height: 650px;
+      overflow-y: auto;
+      padding: 12px 16px 16px 16px;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+
+    .course-card {
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 12px;
+    }
+
+    .course-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+
+    .course-code {
+      font-size: 12px;
+      font-weight: bold;
+      color: var(--blue);
+    }
+
+    .course-name {
+      font-size: 17px;
+      font-weight: bold;
+      color: var(--darkBlue);
+    }
+
+    .badge {
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: bold;
+      white-space: nowrap;
+    }
+
+    .open {
+      background: #dcfce7;
+      color: var(--green);
+    }
+
+    .full {
+      background: #fee2e2;
+      color: var(--red);
+    }
+
+    .course-info {
+      font-size: 13px;
+      line-height: 1.5;
+      margin-bottom: 10px;
+      color: #334155;
+    }
+
+    .course-actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    button {
+      border: none;
+      border-radius: 8px;
+      padding: 8px 12px;
+      font-size: 13px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .info-btn {
+      background: #e2e8f0;
+      color: #0f172a;
+    }
+
+    .add-btn {
+      background: var(--blue);
+      color: white;
+    }
+
+    .add-btn:disabled {
+      background: #94a3b8;
+      cursor: not-allowed;
+    }
+
+    .wait-btn {
+      background: orange;
+      color: white;
+    }
+
+    .remove-btn {
+      background: var(--red);
+      color: white;
+      padding: 6px 10px;
+    }
+
+    /* right side */
+    .right-side {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .panel-body {
+      padding: 14px 16px;
+      min-height: 120px;
+    }
+
+    .item {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 10px;
+      margin-bottom: 10px;
+      background: #fbfdff;
+    }
+
+    .item:last-child {
+      margin-bottom: 0;
+    }
+
+    .empty {
+      color: var(--gray);
+      font-size: 14px;
+    }
+
+    .message-box {
+      background: #dbeafe;
+      border: 1px solid #bfdbfe;
+      border-radius: 10px;
+      padding: 12px;
+      color: #12315c;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .note {
+      margin-top: 10px;
+      font-size: 12px;
+      color: var(--gray);
+    }
+
+    @media (max-width: 1100px) {
+      .course-list {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 900px) {
+      .summary,
+      .main,
+      .toolbar {
+        grid-template-columns: 1fr;
+      }
+
+      .course-list {
+        max-height: none;
+      }
+    }
+  </style>
 </head>
 <body>
-  <header>
-    <h1>Online Course Registration System (UI Demo)</h1>
-    <nav>
-      <a href="index.html">Home</a>
-      <a href="course-search.html">Course Search</a>
-      <a href="student-registration.html">Student Registration</a>
-      <a href="instructor-schedule.html">Instructor Schedule</a>
-      <a href="session-enrollment.html">Session Enrollment</a>
-    </nav>
-  </header>
+  <div class="app">
 
-  <main>
-    <div class="card">
-      <h2>Home</h2>
-      <p>Use the buttons below to access system features.</p>
-      <div style="display:flex; gap:10px; flex-wrap:wrap;">
-        <a href="course-search.html"><button>Search Courses</button></a>
-        <a href="student-registration.html"><button>Student Registration</button></a>
-        <a href="instructor-schedule.html"><button class="btn-secondary">Instructor Schedule</button></a>
+    <!-- page title -->
+    <div class="hero">
+      <h1>Student Course Registration System</h1>
+    </div>
+
+    <!-- top counts -->
+    <div class="summary">
+      <div class="summary-box">
+        <small>Available Courses</small>
+        <span id="availableCount">0</span>
+      </div>
+
+      <div class="summary-box">
+        <small>Full Courses</small>
+        <span id="fullCount">0</span>
+      </div>
+
+      <div class="summary-box">
+        <small>Courses in Schedule</small>
+        <span id="scheduleCount">0</span>
+      </div>
+
+      <div class="summary-box">
+        <small>Courses on Waitlist</small>
+        <span id="waitlistCount">0</span>
       </div>
     </div>
 
-    <div class="card">
-      <h2>Notes</h2>
-      <p class="notice">
-        This is a front-end UI/UX draft. Data is sample data for demonstration.
-      </p>
+    <div class="main">
+
+      <!-- left side -->
+      <div class="panel">
+        <div class="panel-header">
+          <h2>Course Selection</h2>
+        </div>
+
+        <div class="toolbar">
+          <input
+            id="search"
+            type="text"
+            placeholder="Search by code, course name, or professor"
+            oninput="filterCourses()"
+          >
+
+          <select id="availabilityFilter" onchange="filterCourses()">
+            <option value="all">All Courses</option>
+            <option value="open">Open Courses</option>
+            <option value="full">Full Courses</option>
+          </select>
+
+          <select id="sortFilter" onchange="filterCourses()">
+            <option value="code">Sort by Code</option>
+            <option value="name">Sort by Name</option>
+            <option value="availability">Sort by Availability</option>
+          </select>
+        </div>
+
+        <div class="course-list" id="courses"></div>
+      </div>
+
+      <!-- right side -->
+      <div class="right-side">
+
+        <div class="panel">
+          <div class="panel-header">
+            <h3>My Schedule</h3>
+          </div>
+          <div class="panel-body" id="schedule"></div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-header">
+            <h3>My Waitlist</h3>
+          </div>
+          <div class="panel-body" id="waitlist"></div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-header">
+            <h3>Course Information</h3>
+          </div>
+          <div class="panel-body" id="info">
+            <div class="empty">Click the Info button to view course details.</div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-header">
+            <h3>Student Message Center</h3>
+          </div>
+          <div class="panel-body">
+            <div class="message-box" id="message">Welcome. Select a course to begin.</div>
+            <div class="note">
+              This prototype uses a JavaScript array to store course data.
+            </div>
+          </div>
+        </div>
+
+      </div>
     </div>
-  </main>
+  </div>
+
+  <script>
+    // Sprint 1: course data saved in an array
+    // this array acts like stored data for the prototype
+    const courses = [
+      { id: 1, code: "INFO 360", name: "Systems Analysis", professor: "Dr. Lee", credits: 3, time: "MW 10:00 AM - 11:15 AM", room: "Snead Hall 110", seats: 3 },
+      { id: 2, code: "CHEM 302", name: "Physical Chemistry II", professor: "Dr. Patel", credits: 3, time: "TR 1:00 PM - 2:15 PM", room: "Oliver Hall 205", seats: 0 },
+      { id: 3, code: "MATH 310", name: "Discrete Mathematics", professor: "Dr. Nguyen", credits: 3, time: "MWF 12:00 PM - 12:50 PM", room: "Hibbs Hall 214", seats: 5 },
+      { id: 4, code: "BIOL 152", name: "Introduction to Biology", professor: "Dr. Carter", credits: 4, time: "TR 9:30 AM - 10:45 AM", room: "Trani Hall 120", seats: 2 },
+      { id: 5, code: "ACCT 203", name: "Principles of Accounting", professor: "Prof. Green", credits: 3, time: "MW 2:00 PM - 3:15 PM", room: "Snead Hall 310", seats: 0 },
+      { id: 6, code: "ENGL 215", name: "Academic Writing", professor: "Prof. Adams", credits: 3, time: "F 9:00 AM - 11:30 AM", room: "Harris Hall 104", seats: 4 },
+      { id: 7, code: "PSYC 101", name: "Introduction to Psychology", professor: "Dr. Brown", credits: 3, time: "MW 11:30 AM - 12:45 PM", room: "Hibbs Hall 101", seats: 6 },
+      { id: 8, code: "ECON 210", name: "Principles of Economics", professor: "Dr. White", credits: 3, time: "TR 3:00 PM - 4:15 PM", room: "Snead Hall 205", seats: 1 },
+      { id: 9, code: "STAT 212", name: "Applied Statistics", professor: "Dr. Kim", credits: 3, time: "MW 4:30 PM - 5:45 PM", room: "Temple Building 300", seats: 0 },
+      { id: 10, code: "PHYS 207", name: "General Physics I", professor: "Dr. Hall", credits: 4, time: "TR 11:00 AM - 12:15 PM", room: "Oliver Hall 110", seats: 3 },
+      { id: 11, code: "INFO 300", name: "Database Design", professor: "Dr. Ramirez", credits: 3, time: "MW 9:00 AM - 10:15 AM", room: "Snead Hall 205", seats: 4 },
+      { id: 12, code: "BUSN 201", name: "Business Communication", professor: "Prof. Scott", credits: 3, time: "TR 8:00 AM - 9:15 AM", room: "Snead Hall 118", seats: 2 },
+      { id: 13, code: "HPEX 250", name: "Personal Fitness", professor: "Prof. Miller", credits: 2, time: "MW 1:00 PM - 1:50 PM", room: "Cary Street Gym", seats: 8 },
+      { id: 14, code: "ARTF 131", name: "Drawing Fundamentals", professor: "Prof. Young", credits: 3, time: "TR 2:00 PM - 4:45 PM", room: "Pollak Building 224", seats: 0 },
+      { id: 15, code: "SOCY 101", name: "Introduction to Sociology", professor: "Dr. Moore", credits: 3, time: "MWF 10:00 AM - 10:50 AM", room: "Hibbs Hall 307", seats: 7 },
+      { id: 16, code: "UNIV 200", name: "Career Preparation", professor: "Prof. Jackson", credits: 1, time: "F 1:00 PM - 2:15 PM", room: "Harris Hall 210", seats: 12 },
+      { id: 17, code: "INFO 364", name: "Information Security", professor: "Dr. Nelson", credits: 3, time: "TR 4:30 PM - 5:45 PM", room: "Snead Hall 402", seats: 1 },
+      { id: 18, code: "MKTG 301", name: "Marketing Principles", professor: "Prof. Thomas", credits: 3, time: "MW 3:30 PM - 4:45 PM", room: "Snead Hall 221", seats: 0 }
+    ];
+
+    // Sprint 1: these arrays keep track of what the student picked
+    let schedule = [];
+    let waitlist = [];
+
+    // show all course cards
+    function displayCourses(list = courses) {
+      const courseContainer = document.getElementById("courses");
+      let html = "";
+
+      if (list.length === 0) {
+        html = `<div class="empty">No courses match your search.</div>`;
+      } else {
+        list.forEach(course => {
+          const isOpen = course.seats > 0;
+
+          html += `
+            <div class="course-card">
+              <div class="course-top">
+                <div>
+                  <div class="course-code">${course.code}</div>
+                  <div class="course-name">${course.name}</div>
+                </div>
+                <div class="badge ${isOpen ? "open" : "full"}">
+                  ${isOpen ? course.seats + " seats open" : "course full"}
+                </div>
+              </div>
+
+              <div class="course-info">
+                Professor: ${course.professor}<br>
+                Credits: ${course.credits}<br>
+                Time: ${course.time}<br>
+                Location: ${course.room}
+              </div>
+
+              <div class="course-actions">
+                <button class="info-btn" onclick="showInfo(${course.id})">Info</button>
+                <button class="add-btn" onclick="addCourse(${course.id})" ${!isOpen ? "disabled" : ""}>Add</button>
+                ${!isOpen ? `<button class="wait-btn" onclick="joinWaitlist(${course.id})">Join Waitlist</button>` : ""}
+              </div>
+            </div>
+          `;
+        });
+      }
+
+      courseContainer.innerHTML = html;
+      updateCounts();
+    }
+
+    // show details in the info box
+    function showInfo(id) {
+      const course = courses.find(c => c.id === id);
+
+      document.getElementById("info").innerHTML = `
+        <strong>${course.code} - ${course.name}</strong><br><br>
+        Professor: ${course.professor}<br>
+        Credits: ${course.credits}<br>
+        Time: ${course.time}<br>
+        Location: ${course.room}<br>
+        Availability: ${course.seats > 0 ? course.seats + " seat(s) available" : "This course is full"}
+      `;
+
+      setMessage(`Viewing information for ${course.code}.`);
+    }
+
+    // add course to schedule
+    function addCourse(id) {
+      const course = courses.find(c => c.id === id);
+
+      if (schedule.some(item => item.id === id)) {
+        setMessage(`${course.code} is already in your schedule.`);
+        return;
+      }
+
+      if (course.seats === 0) {
+        setMessage(`${course.code} is full. Use the waitlist option.`);
+        return;
+      }
+
+      schedule.push(course);
+      updateSchedule();
+      updateCounts();
+      setMessage(`${course.code} was added to your schedule.`);
+    }
+
+    // add course to waitlist
+    function joinWaitlist(id) {
+      const course = courses.find(c => c.id === id);
+
+      if (schedule.some(item => item.id === id)) {
+        setMessage(`${course.code} is already in your schedule.`);
+        return;
+      }
+
+      if (waitlist.some(item => item.id === id)) {
+        setMessage(`${course.code} is already on your waitlist.`);
+        return;
+      }
+
+      waitlist.push(course);
+      updateWaitlist();
+      updateCounts();
+      setMessage(`${course.code} was added to your waitlist.`);
+    }
+
+    // remove course from schedule
+    function removeCourse(id) {
+      const course = schedule.find(item => item.id === id);
+      schedule = schedule.filter(item => item.id !== id);
+      updateSchedule();
+      updateCounts();
+
+      if (course) {
+        setMessage(`${course.code} was removed from your schedule.`);
+      }
+    }
+
+    // remove course from waitlist
+    function removeWaitlist(id) {
+      const course = waitlist.find(item => item.id === id);
+      waitlist = waitlist.filter(item => item.id !== id);
+      updateWaitlist();
+      updateCounts();
+
+      if (course) {
+        setMessage(`${course.code} was removed from your waitlist.`);
+      }
+    }
+
+    // update the schedule box
+    function updateSchedule() {
+      const scheduleBox = document.getElementById("schedule");
+
+      if (schedule.length === 0) {
+        scheduleBox.innerHTML = `<div class="empty">No classes have been added yet.</div>`;
+        return;
+      }
+
+      let html = "";
+      schedule.forEach(course => {
+        html += `
+          <div class="item">
+            <strong>${course.code} - ${course.name}</strong><br>
+            ${course.time}<br><br>
+            <button class="remove-btn" onclick="removeCourse(${course.id})">Remove</button>
+          </div>
+        `;
+      });
+
+      scheduleBox.innerHTML = html;
+    }
+
+    // update the waitlist box
+    function updateWaitlist() {
+      const waitlistBox = document.getElementById("waitlist");
+
+      if (waitlist.length === 0) {
+        waitlistBox.innerHTML = `<div class="empty">No courses are on the waitlist.</div>`;
+        return;
+      }
+
+      let html = "";
+      waitlist.forEach(course => {
+        html += `
+          <div class="item">
+            <strong>${course.code} - ${course.name}</strong><br>
+            Waitlist notification enabled<br><br>
+            <button class="remove-btn" onclick="removeWaitlist(${course.id})">Remove</button>
+          </div>
+        `;
+      });
+
+      waitlistBox.innerHTML = html;
+    }
+
+    // update the message box
+    function setMessage(message) {
+      document.getElementById("message").innerText = message;
+    }
+
+    // Sprint 2: search + filter + sort
+    function filterCourses() {
+      const searchValue = document.getElementById("search").value.toLowerCase().trim();
+      const availabilityValue = document.getElementById("availabilityFilter").value;
+      const sortValue = document.getElementById("sortFilter").value;
+
+      let filteredCourses = courses.filter(course => {
+        const matchesSearch =
+          course.code.toLowerCase().includes(searchValue) ||
+          course.name.toLowerCase().includes(searchValue) ||
+          course.professor.toLowerCase().includes(searchValue);
+
+        const matchesAvailability =
+          availabilityValue === "all" ||
+          (availabilityValue === "open" && course.seats > 0) ||
+          (availabilityValue === "full" && course.seats === 0);
+
+        return matchesSearch && matchesAvailability;
+      });
+
+      if (sortValue === "name") {
+        filteredCourses.sort((a, b) => a.name.localeCompare(b.name));
+      } else if (sortValue === "availability") {
+        filteredCourses.sort((a, b) => b.seats - a.seats);
+      } else {
+        filteredCourses.sort((a, b) => a.code.localeCompare(b.code));
+      }
+
+      displayCourses(filteredCourses);
+    }
+
+    // update the top summary boxes
+    function updateCounts() {
+      document.getElementById("availableCount").innerText = courses.filter(c => c.seats > 0).length;
+      document.getElementById("fullCount").innerText = courses.filter(c => c.seats === 0).length;
+      document.getElementById("scheduleCount").innerText = schedule.length;
+      document.getElementById("waitlistCount").innerText = waitlist.length;
+    }
+
+    // page load
+    displayCourses();
+    updateSchedule();
+    updateWaitlist();
+    updateCounts();
+  </script>
 </body>
 </html>
